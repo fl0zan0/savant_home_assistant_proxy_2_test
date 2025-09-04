@@ -1,4 +1,6 @@
-# Savant Home Assistant Proxy
+# Savant Home Assistant Proxy 2 
+
+Based on Benumc repo for tests
 
 This is a simple TCP proxy that allows your Savant system to communicate with Home Assistant.
 
