@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="racepoint_component_profile.xsd" manufacturer="Hass" model="Savant" alias="Home Assistant"
-  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="4.2">
+  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="4.2006">
 
   <notes>
   4.2 Added wall plugs with switch domain (all sockets, wall plugs, lutron inline switch)
@@ -31,7 +31,7 @@
   </media_interfaces>
   <state_variable_list>
     <state_variable name="subscribe_all_events" owning_logical_component="Home Assistant" state_center_type="string" user_editable="yes">NO</state_variable>
-    <state_variable name="state_filter" owning_logical_component="Home Assistant"  state_center_type="string" state_center_binding="state_filter" user_editable="yes">brightness,state,cover,lock,current_position</state_variable>
+    <state_variable name="state_filter" owning_logical_component="Home Assistant"  state_center_type="string" state_center_binding="state_filter" user_editable="yes">brightness,color_mode,color_temp_kelvin,state,cover,lock,current_position</state_variable>
     <state_variable name="HassEntityArray" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="HassEntityArray"></state_variable>
 
     <state_variable name="FanSet_0" owning_logical_component="Home Assistant" state_center_type="string" user_editable="yes" note="Fan Speed Off">0</state_variable>
@@ -119,6 +119,32 @@
         </data>
         <append_data_to_state_names state="EntityID" />
       </status_message>
+        <status_message name="Color_Temp_K">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=color_temp_kelvin&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="Value" type="integer" />
+          <data_map match_required="no">
+            <convert>
+              <subtract>2202</subtract>
+              <divide>43.33</divide>
+              <update state="Color_Temp" type="integer"></update>
+            </convert>
+          </data_map>
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
 
       <status_message name="State">
         <constant type="character">entity_id=</constant>
@@ -153,14 +179,14 @@
               <update state="IsDimmerOn" type="boolean">true</update>
               <update state="LightPowerStatus" type="string">ON</update>
               <update state="IsLightOn" type="boolean">true</update>
-              <update state="GroupisLightOn" type="boolean">true</update
+              <update state="GroupisLightOn" type="boolean">true</update>
               <update state="GarageDoorStatus" type="string">Open</update>
             </map>
             <map key="off">
               <update state="IsDimmerOn" type="boolean">false</update>
               <update state="LightPowerStatus" type="string">OFF</update>
               <update state="IsLightOn" type="boolean">false</update>
-              <update state="GroupisLightOn" type="boolean">false</update
+              <update state="GroupisLightOn" type="boolean">false</update>
               <update state="GarageDoorStatus" type="string">Closed</update>
               <update state="DimmerLevel" type="integer">0</update>
             </map>
@@ -349,7 +375,27 @@
           </command>
         </command_interface>
       </action>
-      
+      <action name="LowVoltageDimmerSet">
+        <action_argument name="Address1" note="Entity ID"/>
+        <action_argument name="Address2" note="not used"/>
+        <action_argument name="Address3" note="not used"/>
+        <action_argument name="Address4" note="not used"/>
+        <action_argument name="Address5" note="not used"/>
+        <action_argument name="Address6" note="not used"/>
+        <action_argument name="DimmerLevel" note="Select the Dimmer Level 0 - 100"/>
+        <action_argument name="DelayTime" note="not used"/>
+        <command_interface interface="ip">
+          <command response_required="no">
+            <parameter_list>
+              <parameter parameter_data_type="character">light_set_color_temp,</parameter>
+              <parameter parameter_data_type="character" action_argument="Address1"/>
+              <parameter parameter_data_type="character">,</parameter>
+              <parameter parameter_data_type="character" action_argument="DimmerLevel"/>
+            </parameter_list>
+            <delay ms_delay="10"/>
+          </command>
+        </command_interface>
+      </action>
       <action name="DimmerSet">
         <action_argument name="Address1" note="Entity ID"/>
         <action_argument name="Address2" note="not used"/>
@@ -371,7 +417,7 @@
             <delay ms_delay="10"/>
           </command>
         </command_interface>
-      </action>
+      </action>      
 
       <entity name="Dimmer Group" address_components="1">
         <slider_representation>
@@ -384,7 +430,19 @@
           <with_arg name="Address1" address_component="1" format="%s" />
         </query_status_with_action>
       </entity>
-
+      
+      <entity name="Dimmer CT" address_components="1">
+        <slider_representation>
+          <press_action name="LowVoltageDimmerSet"/>
+          <valueSource name="Color_Temp">
+            <unique_identifier address_component="1" name="Address1" format="%s"/>
+          </valueSource>
+        </slider_representation>
+        <query_status_with_action name="TrackEntity" period_ms="0">
+          <with_arg name="Address1" address_component="1" format="%s" />
+        </query_status_with_action>
+      </entity>
+      
       <entity name="Switch" address_components="1">
         <toggle_button_representation>
           <release_action name="SwitchOn"> </release_action>

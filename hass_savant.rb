@@ -357,10 +357,22 @@ module HassRequests
     level.to_i.zero? ? dimmer_off(entity_id) : dimmer_on(entity_id, level)
   end
 
-  def light_set_color_temp(entity_id, kelvin)
-  send_data(
+  def light_set_color_temp(entity_id, savant_value)
+    v = savant_value.to_f
+    kelvin = ((v * 33) + 2200).round
+    send_data(
       type: :call_service, domain: :light, service: :turn_on,
-      service_data: { color_temp_kelvin: kelvin.to_i },
+      service_data: { color_temp_kelvin: kelvin },
+      target: { entity_id: entity_id }
+    )
+  end
+
+    def lumaris_set_color_temp(entity_id, savant_value)
+    v = savant_value.to_f
+    kelvin = ((v * 22) + 1800).round
+    send_data(
+      type: :call_service, domain: :light, service: :turn_on,
+      service_data: { color_temp_kelvin: kelvin },
       target: { entity_id: entity_id }
     )
   end
@@ -452,7 +464,15 @@ module HassRequests
       target: { entity_id: entity_id }
     )
   end
-
+  
+  def adb_command(entity_id, command)
+  send_data(
+      type: :call_service, domain: :androidtv, service: :adb_command,
+      service_data: { command: command },
+      target: { entity_id: entity_id }
+    )
+  end
+ 
   def remote_on(entity_id)
     send_data(
       type: :call_service, domain: :remote, service: :turn_on,
