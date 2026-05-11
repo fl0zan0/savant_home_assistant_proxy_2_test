@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="racepoint_component_profile.xsd" manufacturer="Hass" model="Savant" alias="Home Assistant"
-  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="4.2009">
+<component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="racepoint_component_profile.xsd" manufacturer="Hass" model="Savant_lutron" alias="Home Assistant"
+  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="1.101">
 
   <notes>
-  4.2 Added wall plugs with switch domain (all sockets, wall plugs, lutron inline switch)
+  1.1   First version with Lutron lumaris integration. (color temp) 
   </notes>  
   <control_interfaces preferred="ip">
     <ip port="8080" response_time_length_ms="1000" protocol="tcp">
@@ -31,7 +31,7 @@
   </media_interfaces>
   <state_variable_list>
     <state_variable name="subscribe_all_events" owning_logical_component="Home Assistant" state_center_type="string" user_editable="yes">NO</state_variable>
-    <state_variable name="state_filter" owning_logical_component="Home Assistant"  state_center_type="string" state_center_binding="state_filter" user_editable="yes">brightness,color_mode,color_temp_kelvin,state,cover,lock,current_position</state_variable>
+    <state_variable name="state_filter" owning_logical_component="Home Assistant"  state_center_type="string" state_center_binding="state_filter" user_editable="yes">brightness,color_mode,color_temp_kelvin,hs_color,hue,saturation,state,cover,lock,current_position</state_variable>
     <state_variable name="HassEntityArray" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="HassEntityArray"></state_variable>
 
     <state_variable name="FanSet_0" owning_logical_component="Home Assistant" state_center_type="string" user_editable="yes" note="Fan Speed Off">0</state_variable>
@@ -137,11 +137,51 @@
           <update state="Value" type="integer" />
           <data_map match_required="no">
             <convert>
-              <subtract>2202</subtract>
-              <divide>43</divide>
+              <subtract>1800</subtract>
+              <divide>22</divide>
               <update state="Color_Temp" type="integer"></update>
             </convert>
           </data_map>
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+
+      <status_message name="Hue">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=hue&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="Hue" type="integer" />
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+
+      <status_message name="Saturation">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=saturation&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="Saturation" type="integer" />
         </data>
         <append_data_to_state_names state="EntityID" />
       </status_message>
@@ -387,7 +427,49 @@
         <command_interface interface="ip">
           <command response_required="no">
             <parameter_list>
-              <parameter parameter_data_type="character">light_set_color_temp,</parameter>
+              <parameter parameter_data_type="character">lumaris_set_color_temp,</parameter>
+              <parameter parameter_data_type="character" action_argument="Address1"/>
+              <parameter parameter_data_type="character">,</parameter>
+              <parameter parameter_data_type="character" action_argument="DimmerLevel"/>
+            </parameter_list>
+            <delay ms_delay="10"/>
+          </command>
+        </command_interface>
+      </action>
+      <action name="HueSet">
+        <action_argument name="Address1" note="Entity ID"/>
+        <action_argument name="Address2" note="not used"/>
+        <action_argument name="Address3" note="not used"/>
+        <action_argument name="Address4" note="not used"/>
+        <action_argument name="Address5" note="not used"/>
+        <action_argument name="Address6" note="not used"/>
+        <action_argument name="DimmerLevel" note="Hue 0 - 100 (mapped to 0 - 360 deg)"/>
+        <action_argument name="DelayTime" note="not used"/>
+        <command_interface interface="ip">
+          <command response_required="no">
+            <parameter_list>
+              <parameter parameter_data_type="character">light_set_hue,</parameter>
+              <parameter parameter_data_type="character" action_argument="Address1"/>
+              <parameter parameter_data_type="character">,</parameter>
+              <parameter parameter_data_type="character" action_argument="DimmerLevel"/>
+            </parameter_list>
+            <delay ms_delay="10"/>
+          </command>
+        </command_interface>
+      </action>
+      <action name="SaturationSet">
+        <action_argument name="Address1" note="Entity ID"/>
+        <action_argument name="Address2" note="not used"/>
+        <action_argument name="Address3" note="not used"/>
+        <action_argument name="Address4" note="not used"/>
+        <action_argument name="Address5" note="not used"/>
+        <action_argument name="Address6" note="not used"/>
+        <action_argument name="DimmerLevel" note="Saturation / Vibrance 0 - 100"/>
+        <action_argument name="DelayTime" note="not used"/>
+        <command_interface interface="ip">
+          <command response_required="no">
+            <parameter_list>
+              <parameter parameter_data_type="character">light_set_saturation,</parameter>
               <parameter parameter_data_type="character" action_argument="Address1"/>
               <parameter parameter_data_type="character">,</parameter>
               <parameter parameter_data_type="character" action_argument="DimmerLevel"/>
@@ -472,7 +554,30 @@
           <with_arg name="Address1" address_component="1" format="%s" />
         </query_status_with_action>
       </entity>
-      
+      <entity name="Dimmer Hue" address_components="1">
+        <slider_representation>
+          <press_action name="HueSet"/>
+          <valueSource name="Hue">
+            <unique_identifier address_component="1" name="Address1" format="%s"/>
+          </valueSource>
+        </slider_representation>
+        <query_status_with_action name="TrackEntity" period_ms="0">
+          <with_arg name="Address1" address_component="1" format="%s" />
+        </query_status_with_action>
+      </entity>
+
+      <entity name="Dimmer Saturation" address_components="1">
+        <slider_representation>
+          <press_action name="SaturationSet"/>
+          <valueSource name="Saturation">
+            <unique_identifier address_component="1" name="Address1" format="%s"/>
+          </valueSource>
+        </slider_representation>
+        <query_status_with_action name="TrackEntity" period_ms="0">
+          <with_arg name="Address1" address_component="1" format="%s" />
+        </query_status_with_action>
+      </entity>
+
     </resource_component_actions>
     
     <resource_component_actions resource_type="ENV_SHADECONTROLLER_SOURCE">
