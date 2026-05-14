@@ -81,7 +81,7 @@
           <update state="State" type="string"></update>
         </data>
       </status_message>
-            <status_message name="Temperature">
+        <status_message name="Temperature">
         <constant type="character">entity_id=</constant>
         <data type="character" terminator_type="character" terminator="&amp;">
           <update state="EntityID" type="string"></update>
