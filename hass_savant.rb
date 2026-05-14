@@ -386,7 +386,7 @@ module HassRequests
     )
   end
 
-  def light_set_hue(entity_id, savant_value)
+  def hue_set(entity_id, savant_value)
     hue = (savant_value.to_f * 3.6).clamp(0.0, 360.0)
     saturation = (@hs_state[entity_id] || [0.0, 0.0])[1]
     @hs_state[entity_id] = [hue, saturation]
@@ -397,7 +397,7 @@ module HassRequests
     )
   end
 
-  def light_set_saturation(entity_id, savant_value)
+  def saturation_set(entity_id, savant_value)
     saturation = savant_value.to_f.clamp(0.0, 100.0)
     hue = (@hs_state[entity_id] || [0.0, 0.0])[0]
     @hs_state[entity_id] = [hue, saturation]
