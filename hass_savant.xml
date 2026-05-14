@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="racepoint_component_profile.xsd" manufacturer="Hass" model="Savant" alias="Home Assistant"
-  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="4.5">
+  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="4.5001">
 
   <notes>
   4.2 Added wall plugs with switch domain (all sockets, wall plugs, lutron inline switch)
@@ -47,7 +47,6 @@
     </implementation>
 
     <status_messages>
-
       <status_message name="websocket_connected">
         <constant type="character">hass_websocket_connected,</constant>
         <data type="character" terminator_type="end_of_data">
@@ -120,6 +119,25 @@
         <append_data_to_state_names state="EntityID" />
       </status_message>
 
+      <status_message name="Color_Mode">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=color_mode&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="CurrentTemperature" type="float"></update>
+        </data>
+      </status_message>
+      
       </status_message>
         <status_message name="Color_Temp_Kelvin">
         <constant type="character">entity_id=</constant>
@@ -148,6 +166,46 @@
         <append_data_to_state_names state="EntityID" />
       </status_message>
 
+      <status_message name="Hue">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=hue&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="Hue" type="integer" />
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+
+      <status_message name="Saturation">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=saturation&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="Saturation" type="integer" />
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+      
       <status_message name="State">
         <constant type="character">entity_id=</constant>
         <data type="character" terminator_type="character" terminator="&amp;">
