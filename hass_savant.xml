@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="racepoint_component_profile.xsd" manufacturer="Hass" model="Savant" alias="Home Assistant"
-  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="4.5001">
+  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="4.5006">
 
   <notes>
   4.2 Added wall plugs with switch domain (all sockets, wall plugs, lutron inline switch)
@@ -18,7 +18,6 @@
         <control port="8080"/>
       </combined_media>
     </data>
-
 
     <internal name_on_component="Lighting Controller">
       <environmental_media/>
@@ -38,9 +37,8 @@
     <state_variable name="FanSet_1" owning_logical_component="Home Assistant" state_center_type="string" user_editable="yes" note="Fan Speed Low">2</state_variable>
     <state_variable name="FanSet_2" owning_logical_component="Home Assistant" state_center_type="string" user_editable="yes" note="Fan Speed Mid">4</state_variable>
     <state_variable name="FanSet_3" owning_logical_component="Home Assistant" state_center_type="string" user_editable="yes" note="Fan Speed High">7</state_variable>
-
-
   </state_variable_list>
+  
   <logical_component logical_component_name="Home Assistant">
     <implementation>
       <internal name_on_component="Lighting Controller"/>
@@ -134,12 +132,11 @@
         </data>
         <constant type="character">attr_name=color_mode&amp;attr_value=</constant>
         <data type="character" terminator_type="end_of_data">
-          <update state="CurrentTemperature" type="float"></update>
+          <update state="Color_Mode" type="string"></update>
         </data>
       </status_message>
-      
-      </status_message>
-        <status_message name="Color_Temp_Kelvin">
+
+      <status_message name="Color_Temp_Kelvin">
         <constant type="character">entity_id=</constant>
         <data type="character" terminator_type="character" terminator="&amp;">
           <update state="EntityID" type="string"></update>
@@ -205,7 +202,7 @@
         </data>
         <append_data_to_state_names state="EntityID" />
       </status_message>
-      
+
       <status_message name="State">
         <constant type="character">entity_id=</constant>
         <data type="character" terminator_type="character" terminator="&amp;">
@@ -324,6 +321,7 @@
           <update state="Unhandled" type="string"></update>
         </data>
       </status_message>
+    
     </status_messages>
 
     <resource_component_actions resource_type="ENV_FANCONTROLLER_SOURCE">
@@ -481,6 +479,50 @@
         </command_interface>
       </action>
 
+      <action name="RFDimmerSet">
+        <action_argument name="Address1" note="Entity ID"/>
+        <action_argument name="Address2" note="not used"/>
+        <action_argument name="Address3" note="not used"/>
+        <action_argument name="Address4" note="not used"/>
+        <action_argument name="Address5" note="not used"/>
+        <action_argument name="Address6" note="not used"/>
+        <action_argument name="DimmerLevel" note="Select the Dimmer Level 0 - 100"/>
+        <action_argument name="DelayTime" note="not used"/>
+        <command_interface interface="ip">
+          <command response_required="no">
+            <parameter_list>
+              <parameter parameter_data_type="character">hue_set,</parameter>
+              <parameter parameter_data_type="character" action_argument="Address1"/>
+              <parameter parameter_data_type="character">,</parameter>
+              <parameter parameter_data_type="character" action_argument="DimmerLevel"/>
+            </parameter_list>
+            <delay ms_delay="10"/>
+          </command>
+        </command_interface>
+      </action>
+
+      <action name="DimmerFlash">
+        <action_argument name="Address1" note="Entity ID"/>
+        <action_argument name="Address2" note="not used"/>
+        <action_argument name="Address3" note="not used"/>
+        <action_argument name="Address4" note="not used"/>
+        <action_argument name="Address5" note="not used"/>
+        <action_argument name="Address6" note="not used"/>
+        <action_argument name="DimmerLevel" note="Select the Dimmer Level 0 - 100"/>
+        <action_argument name="DelayTime" note="not used"/>
+        <command_interface interface="ip">
+          <command response_required="no">
+            <parameter_list>
+              <parameter parameter_data_type="character">saturation_set,</parameter>
+              <parameter parameter_data_type="character" action_argument="Address1"/>
+              <parameter parameter_data_type="character">,</parameter>
+              <parameter parameter_data_type="character" action_argument="DimmerLevel"/>
+            </parameter_list>
+            <delay ms_delay="10"/>
+          </command>
+        </command_interface>
+      </action>
+
       <action name="ButtonPress">
         <action_argument name="Address1" note="Button Entity ID"/>
         <action_argument name="Address2" note="LED Feedback Entity ID"/>
@@ -499,7 +541,7 @@
         </command_interface>
       </action>
 
-      <entity name="Dimmer Group" address_components="1">
+      <entity name="Dimmer" address_components="1">
         <slider_representation>
           <press_action name="DimmerSet"/>
           <valueSource name="DimmerLevel">
@@ -511,10 +553,34 @@
         </query_status_with_action>
       </entity>
 
-      <entity name="Dimmer CT" address_components="1">
+      <entity name="Color Temp" address_components="1">
         <slider_representation>
           <press_action name="LowVoltageDimmerSet"/>
           <valueSource name="Color_Temp_Kelvin">
+            <unique_identifier address_component="1" name="Address1" format="%s"/>
+          </valueSource>
+        </slider_representation>
+        <query_status_with_action name="TrackEntity" period_ms="0">
+          <with_arg name="Address1" address_component="1" format="%s" />
+        </query_status_with_action>
+      </entity>
+
+      <entity name="Hue" address_components="1">
+        <slider_representation>
+          <press_action name="RFDimmerSet"/>
+          <valueSource name="Hue">
+            <unique_identifier address_component="1" name="Address1" format="%s"/>
+          </valueSource>
+        </slider_representation>
+        <query_status_with_action name="TrackEntity" period_ms="0">
+          <with_arg name="Address1" address_component="1" format="%s" />
+        </query_status_with_action>
+      </entity>
+
+      <entity name="Saturation" address_components="1">
+        <slider_representation>
+          <press_action name="DimmerFlash"/>
+          <valueSource name="Saturation">
             <unique_identifier address_component="1" name="Address1" format="%s"/>
           </valueSource>
         </slider_representation>
