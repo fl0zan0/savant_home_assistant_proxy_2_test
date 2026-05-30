@@ -1,4 +1,4 @@
-# Savant Home Assistant Proxy 2 
+# Savant Home Assistant Proxy 2 Test
 
 Based on Benumc repo for tests
 

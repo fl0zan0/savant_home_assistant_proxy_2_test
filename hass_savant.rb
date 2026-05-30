@@ -376,6 +376,23 @@ module HassRequests
     )
   end
 
+  # Native Savant tunable-white picker (010V "Dual" load type).
+  # Unlike color_temp_kelvin_set, kelvin is the real value (2200-6000), not 0-100.
+  # level (brightness 0-100) is optional: the kelvin ring sends it, the brightness
+  # ring sends level only (kelvin omitted), so both args default to nil.
+  def tunable_white_set(entity_id, kelvin = nil, level = nil)
+    return dimmer_off(entity_id) if level && level.to_i.zero? && (kelvin.nil? || kelvin.to_s.empty?)
+    service_data = {}
+    service_data[:color_temp_kelvin] = kelvin.to_i if kelvin && !kelvin.to_s.empty?
+    service_data[:brightness_pct]    = level.to_i  if level  && !level.to_s.empty?
+    return if service_data.empty?
+    send_data(
+      type: :call_service, domain: :light, service: :turn_on,
+      service_data: service_data,
+      target: { entity_id: entity_id }
+    )
+  end
+
     def lumaris_color_temp_kelvin_set(entity_id, savant_value)
     v = savant_value.to_f
     kelvin = ((v * 22) + 1800).round

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="racepoint_component_profile.xsd" manufacturer="Hass" model="Savant" alias="Home Assistant"
-  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="4.5006">
+  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="4.5009">
 
   <notes>
   4.2 Added wall plugs with switch domain (all sockets, wall plugs, lutron inline switch)
@@ -162,6 +162,47 @@
         </data>
         <append_data_to_state_names state="EntityID" />
       </status_message>
+
+<status_message name="min_color_temp_kelvin">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=min_color_temp_kelvin&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="minKelvinTemp" type="integer" />
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+      
+      <status_message name="max_color_temp_kelvin">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=max_color_temp_kelvin&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="maxKelvinTemp" type="integer" />
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+
 
       <status_message name="Hue">
         <constant type="character">entity_id=</constant>
@@ -479,6 +520,33 @@
         </command_interface>
       </action>
 
+      <action name="DimmerSetWhite">
+        <action_argument name="Address1" note="Entity ID"/>
+        <action_argument name="Address2" note="not used"/>
+        <action_argument name="Address3" note="not used"/>
+        <action_argument name="Address4" note="not used"/>
+        <action_argument name="Address5" note="not used"/>
+        <action_argument name="Address6" note="not used"/>
+        <action_argument name="DimmerLevel" note="Brightness 0 - 100"/>
+        <action_argument name="kelvin" note="Color temperature in Kelvin (2200 - 6000)"/>
+        <action_argument name="Color" note="Curve, not used"/>
+        <action_argument name="FadeTime" note="not used"/>
+        <action_argument name="DelayTime" note="not used"/>
+        <command_interface interface="ip">
+          <command response_required="no">
+            <parameter_list>
+              <parameter parameter_data_type="character">tunable_white_set,</parameter>
+              <parameter parameter_data_type="character" action_argument="Address1"/>
+              <parameter parameter_data_type="character">,</parameter>
+              <parameter parameter_data_type="character" action_argument="kelvin"/>
+              <parameter parameter_data_type="character">,</parameter>
+              <parameter parameter_data_type="character" action_argument="DimmerLevel"/>
+            </parameter_list>
+            <delay ms_delay="10"/>
+          </command>
+        </command_interface>
+      </action>
+
       <action name="RFDimmerSet">
         <action_argument name="Address1" note="Entity ID"/>
         <action_argument name="Address2" note="not used"/>
@@ -556,6 +624,18 @@
       <entity name="Color Temp" address_components="1">
         <slider_representation>
           <press_action name="LowVoltageDimmerSet"/>
+          <valueSource name="Color_Temp_Kelvin">
+            <unique_identifier address_component="1" name="Address1" format="%s"/>
+          </valueSource>
+        </slider_representation>
+        <query_status_with_action name="TrackEntity" period_ms="0">
+          <with_arg name="Address1" address_component="1" format="%s" />
+        </query_status_with_action>
+      </entity>
+
+      <entity name="010V" address_components="1">
+        <slider_representation>
+          <press_action name="DimmerSetWhite"/>
           <valueSource name="Color_Temp_Kelvin">
             <unique_identifier address_component="1" name="Address1" format="%s"/>
           </valueSource>
