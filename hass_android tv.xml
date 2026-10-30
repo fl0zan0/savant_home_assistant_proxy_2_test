@@ -626,7 +626,7 @@
             <command_string>remote_launch_app,</command_string>
             <parameter_list>
               <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
-              <parameter parameter_data_type="character">,com.google.android.tv</parameter>
+              <parameter parameter_data_type="character">,content://android.media.tv/channel</parameter>
             </parameter_list>
           </command>
         </command_interface>
