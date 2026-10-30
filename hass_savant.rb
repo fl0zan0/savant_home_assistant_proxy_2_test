@@ -535,6 +535,14 @@ module HassRequests
     )
   end
 
+  def remote_launch_app(entity_id, activity)
+    send_data(
+      type: :call_service, domain: :remote, service: :turn_on,
+      service_data: { activity: activity },
+      target: { entity_id: entity_id }
+    )
+  end
+
   def remote_send_command(entity_id, command)
     send_data(
       type: :call_service, domain: :remote, service: :send_command,
