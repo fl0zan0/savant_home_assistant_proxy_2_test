@@ -33,8 +33,8 @@
 
     <state_variable name="state_filter" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="state_filter" user_editable="yes">all</state_variable>
     <state_variable name="HassEntityArray" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="HassEntityArray"></state_variable>
-    <state_variable name="HassMediaEntityID" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="HassMediaEntityID" user_editable="yes">media_player.tcl_tv</state_variable>
-    <state_variable name="HassRemoteEntityID" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="HassRemoteEntityID" user_editable="yes">remote.tcl_tv</state_variable>
+    <state_variable name="HassMediaEntityID" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="HassMediaEntityID" user_editable="yes">media_player.smart_tv_pro</state_variable>
+    <state_variable name="HassRemoteEntityID" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="HassRemoteEntityID" user_editable="yes">remote.smart_tv_pro</state_variable>
 
   </state_variable_list>
   <logical_component logical_component_name="Home Assistant">
