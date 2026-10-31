@@ -664,7 +664,7 @@ module HassRequests
   def media_player_shuffle_set(entity_id, shuffle)
     send_data(
       type: :call_service, domain: :media_player, service: :shuffle_set,
-      service_data: {repeat: shuffle.downcase == 'true'},
+      service_data: {shuffle: shuffle.downcase == 'true'},
       target: { entity_id: entity_id }
     )
   end
@@ -677,26 +677,23 @@ module HassRequests
     )
   end
 
-  def media_player_play_media(entity_id, json_params)
-    params = JSON.parse(json_params)
+  def media_player_play_media(entity_id, media_content_id, media_content_type)
     send_data(
-      type: :call_service, domain: :media_player, service: :repeat_set,
-      service_data: {repeat: repeat_mode},
+      type: :call_service, domain: :media_player, service: :play_media,
+      service_data: {
+        media_content_id: media_content_id,
+        media_content_type: media_content_type
+      },
       target: { entity_id: entity_id }
     )
-  rescue => e
-    to_savant("#{e.message}: #{json_params}")
   end
 
   def media_player_media_seek(entity_id, seek_position)
-    params = JSON.parse(json_params)
     send_data(
       type: :call_service, domain: :media_player, service: :media_seek,
-      service_data: {seek_position: seek_position},
+      service_data: {seek_position: seek_position.to_f},
       target: { entity_id: entity_id }
     )
-  rescue => e
-    to_savant("#{e.message}: #{json_params}")
   end
 end
 
