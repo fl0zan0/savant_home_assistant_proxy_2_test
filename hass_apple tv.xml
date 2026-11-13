@@ -191,9 +191,9 @@
       <action name="IncreaseVolume">
         <command_interface interface="ip">
           <command response_required="no">
-            <command_string>media_player_volume_down,</command_string>
+            <command_string>media_player_volume_up,</command_string>
             <parameter_list>
-              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
             </parameter_list>
           </command>
         </command_interface>
@@ -203,7 +203,7 @@
           <command response_required="no">
             <command_string>media_player_volume_down,</command_string>
             <parameter_list>
-              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
             </parameter_list>
           </command>
         </command_interface>
@@ -214,7 +214,7 @@
           <command response_required="no">
             <command_string>media_player_set_volume,</command_string>
             <parameter_list>
-              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
               <parameter parameter_data_type="character">,</parameter>
               <parameter parameter_data_type="character" action_argument="VolumeValue" />
             </parameter_list>
@@ -239,7 +239,7 @@
           <command response_required="no">
             <command_string>media_player_play,</command_string>
             <parameter_list>
-              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
             </parameter_list>
           </command>
         </command_interface>
@@ -249,7 +249,7 @@
           <command response_required="no">
             <command_string>media_player_pause,</command_string>
             <parameter_list>
-              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
             </parameter_list>
           </command>
         </command_interface>
@@ -270,7 +270,7 @@
           <command response_required="no">
             <command_string>media_player_previous_track,</command_string>
             <parameter_list>
-              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
             </parameter_list>
           </command>
         </command_interface>
@@ -280,7 +280,7 @@
           <command response_required="no">
             <command_string>media_player_next_track,</command_string>
             <parameter_list>
-              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
             </parameter_list>
           </command>
         </command_interface>
@@ -290,7 +290,7 @@
           <command response_required="no">
             <command_string>media_player_previous_track,</command_string>
             <parameter_list>
-              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
             </parameter_list>
           </command>
         </command_interface>
@@ -401,7 +401,7 @@
           <command response_required="no">
             <command_string>media_player_select_source,</command_string>
             <parameter_list>
-              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
               <parameter parameter_data_type="character">,Netflix</parameter>
             </parameter_list>
           </command>
@@ -412,7 +412,7 @@
           <command response_required="no">
             <command_string>media_player_select_source,</command_string>
             <parameter_list>
-              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
               <parameter parameter_data_type="character">,YouTube</parameter>
             </parameter_list>
           </command>
@@ -423,7 +423,7 @@
           <command response_required="no">
             <command_string>media_player_select_source,</command_string>
             <parameter_list>
-              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
               <parameter parameter_data_type="character">,Crave</parameter>
             </parameter_list>
           </command>
@@ -434,7 +434,7 @@
           <command response_required="no">
             <command_string>media_player_select_source,</command_string>
             <parameter_list>
-              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
               <parameter parameter_data_type="character">,TV</parameter>
             </parameter_list>
           </command>
