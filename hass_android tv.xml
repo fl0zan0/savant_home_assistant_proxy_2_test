@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="racepoint_component_profile.xsd" manufacturer="Hass" model="Android TV" alias="Home Assistant"
-  device_class="Media_server" minimum_component_engine_version="0" rpm_xml_version="3.8">
+  device_class="HD_monitor" minimum_component_engine_version="0" rpm_xml_version="3.98">
 
   <control_interfaces preferred="ip">
     <ip port="8080" response_time_length_ms="100" protocol="tcp">
@@ -10,39 +10,249 @@
   </control_interfaces>
 
   <media_interfaces>
-    <output name_on_component="HDMI OUT">
+    <input name_on_component="HDMI 1">
       <combined_media>
-        <audio_media type="hdmi_audio"></audio_media>
-        <video_media type="hdmi"></video_media>
+        <audio_media type="hdmi_audio"/>
+        <video_media type="hdmi"/>
       </combined_media>
-      <resource resource_type="AV_EXTERNALMEDIASERVER_SOURCE"></resource>
-      <resource resource_type="AV_VOLUMECONTROL_FUNCTION"></resource>
+      <resource resource_type="AV_AMPLIFIER_FUNCTION"/>
+      <resource resource_type="AV_MONITOR_SINK"/>
+      <resource resource_type="AV_STEREOSPEAKERS_SINK"/>
+      <resource resource_type="AV_VOLUMECONTROL_FUNCTION"/>
+    </input>
+    <input name_on_component="HDMI 2">
+      <combined_media>
+        <audio_media type="hdmi_audio"/>
+        <video_media type="hdmi"/>
+      </combined_media>
+      <resource resource_type="AV_AMPLIFIER_FUNCTION"/>
+      <resource resource_type="AV_MONITOR_SINK"/>
+      <resource resource_type="AV_STEREOSPEAKERS_SINK"/>
+      <resource resource_type="AV_VOLUMECONTROL_FUNCTION"/>
+    </input>
+    <input name_on_component="HDMI 3">
+      <combined_media>
+        <audio_media type="hdmi_audio"/>
+        <video_media type="hdmi"/>
+      </combined_media>
+      <resource resource_type="AV_AMPLIFIER_FUNCTION"/>
+      <resource resource_type="AV_MONITOR_SINK"/>
+      <resource resource_type="AV_STEREOSPEAKERS_SINK"/>
+      <resource resource_type="AV_VOLUMECONTROL_FUNCTION"/>
+    </input>
+    <input name_on_component="HDMI 4">
+      <combined_media>
+        <audio_media type="hdmi_audio"/>
+        <video_media type="hdmi"/>
+      </combined_media>
+      <resource resource_type="AV_AMPLIFIER_FUNCTION"/>
+      <resource resource_type="AV_MONITOR_SINK"/>
+      <resource resource_type="AV_STEREOSPEAKERS_SINK"/>
+      <resource resource_type="AV_VOLUMECONTROL_FUNCTION"/>
+    </input>
+    <input name_on_component="CABLE/ANT">
+            <signal type="cable_tv_coaxial"></signal>
+            <resource resource_type="AV_MONITOR_SINK"></resource>
+            <resource resource_type="AV_TV_SOURCE"></resource>
+            <resource resource_type="AV_STEREOSPEAKERS_SINK"></resource>
+            <resource resource_type="AV_VOLUMECONTROL_FUNCTION"></resource>
+            <resource resource_type="AV_AMPLIFIER_FUNCTION"></resource>
+    </input>
+    <input name_on_component="AV IN">
+            <audio_media type="rca_stereo"></audio_media>
+            <video_media type="composite"></video_media>
+            <resource resource_type="AV_AMPLIFIER_FUNCTION"></resource>
+            <resource resource_type="AV_MONITOR_SINK"></resource>
+            <resource resource_type="AV_STEREOSPEAKERS_SINK"></resource>
+            <resource resource_type="AV_VOLUMECONTROL_FUNCTION"></resource>
+    </input>
+    <output name_on_component="AUDIO OUT (OPTICAL)">
+      <audio_media type="optical_digital"/>
     </output>
+    <output name_on_component="H/P AUDIO OUT">
+      <audio_media type="analog_minijack"/>
+    </output>
+    <bidirectional name_on_component="HDMI 4 ARC">
+      <combined_media>
+        <audio_media type="hdmi_audio"/>
+        <video_media type="hdmi"/>
+      </combined_media>
+      <resource resource_type="AV_AMPLIFIER_FUNCTION"/>
+      <resource resource_type="AV_MONITOR_SINK"/>
+      <resource resource_type="AV_STEREOSPEAKERS_SINK"/>
+      <resource resource_type="AV_VOLUMECONTROL_FUNCTION"/>
+    </bidirectional>
     <data name_on_component="Ethernet">
       <combined_media>
-        <data_media type="ethernet" />
-        <control port="8080" />
+        <data_media type="ethernet"/>
+        <control port="8080"/>
       </combined_media>
     </data>
-    <internal name_on_component="AppController">
-      <environmental_media></environmental_media>
+    <internal name_on_component="Apps">
+      <audio_media/>
+      <video_media/>
+      <resource resource_type="AV_EXTERNALMEDIASERVER_SOURCE"></resource>
+            <resource resource_type="AV_SMARTTV_SOURCE"/>
+            <resource resource_type="AV_AMPLIFIER_FUNCTION"></resource>
+            <resource resource_type="AV_MONITOR_SINK"></resource>
+            <resource resource_type="AV_STEREOSPEAKERS_SINK"></resource>
+            <resource resource_type="AV_VOLUMECONTROL_FUNCTION"></resource>
+    </internal>
+    <internal name_on_component="Netflix">
+      <audio_media/>
+      <video_media/>
+      <resource resource_type="AV_EXTERNALMEDIASERVER_SOURCE"/>
+      <resource resource_type="AV_AMPLIFIER_FUNCTION"/>
+      <resource resource_type="AV_MONITOR_SINK"/>
+      <resource resource_type="AV_STEREOSPEAKERS_SINK"/>
+      <resource resource_type="AV_VOLUMECONTROL_FUNCTION"/>
+    </internal>
+    <internal name_on_component="YouTube">
+      <audio_media/>
+      <video_media/>
+      <resource resource_type="AV_EXTERNALMEDIASERVER_SOURCE"/>
+      <resource resource_type="AV_AMPLIFIER_FUNCTION"/>
+      <resource resource_type="AV_MONITOR_SINK"/>
+      <resource resource_type="AV_STEREOSPEAKERS_SINK"/>
+      <resource resource_type="AV_VOLUMECONTROL_FUNCTION"/>
+    </internal>
+    <internal name_on_component="PrimeVideo">
+      <audio_media/>
+      <video_media/>
+      <resource resource_type="AV_EXTERNALMEDIASERVER_SOURCE"/>
+      <resource resource_type="AV_AMPLIFIER_FUNCTION"/>
+      <resource resource_type="AV_MONITOR_SINK"/>
+      <resource resource_type="AV_STEREOSPEAKERS_SINK"/>
+      <resource resource_type="AV_VOLUMECONTROL_FUNCTION"/>
+    </internal>
+    <internal name_on_component="FranceTV">
+      <audio_media/>
+      <video_media/>
+      <resource resource_type="AV_EXTERNALMEDIASERVER_SOURCE"/>
+      <resource resource_type="AV_AMPLIFIER_FUNCTION"/>
+      <resource resource_type="AV_MONITOR_SINK"/>
+      <resource resource_type="AV_STEREOSPEAKERS_SINK"/>
+      <resource resource_type="AV_VOLUMECONTROL_FUNCTION"/>
+    </internal>
+    <internal name_on_component="Arte">
+      <audio_media/>
+      <video_media/>
+      <resource resource_type="AV_EXTERNALMEDIASERVER_SOURCE"/>
+      <resource resource_type="AV_AMPLIFIER_FUNCTION"/>
+      <resource resource_type="AV_MONITOR_SINK"/>
+      <resource resource_type="AV_STEREOSPEAKERS_SINK"/>
+      <resource resource_type="AV_VOLUMECONTROL_FUNCTION"/>
     </internal>
   </media_interfaces>
   <state_variable_list>
     <state_variable name="subscribe_all_events" owning_logical_component="Home Assistant" state_center_type="string" user_editable="yes">NO</state_variable>
 
-    <state_variable name="state_filter" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="state_filter" user_editable="yes">all</state_variable>
+    <state_variable name="state_filter" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="state_filter" user_editable="yes">state</state_variable>
     <state_variable name="HassEntityArray" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="HassEntityArray"></state_variable>
     <state_variable name="HassMediaEntityID" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="HassMediaEntityID" user_editable="yes">media_player.smart_tv_pro</state_variable>
     <state_variable name="HassRemoteEntityID" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="HassRemoteEntityID" user_editable="yes">remote.smart_tv_pro</state_variable>
 
+    <state_variable name="CurrentPowerStatus" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="CurrentPowerStatus">OFF</state_variable>
   </state_variable_list>
   <logical_component logical_component_name="Home Assistant">
     <implementation>
-      <output name_on_component="HDMI OUT" />
+      <input name_on_component="HDMI 1">
+        <action_to_select name="SelectHDMI1" />
+      </input>
+      <output name_on_component="H/P AUDIO OUT" />
+      <output name_on_component="AUDIO OUT (OPTICAL)" />
     </implementation>
     <implementation>
-      <internal name_on_component="KeypadController" />
+      <input name_on_component="HDMI 2">
+        <action_to_select name="SelectHDMI2" />
+      </input>
+      <output name_on_component="H/P AUDIO OUT" />
+      <output name_on_component="AUDIO OUT (OPTICAL)" />
+    </implementation>
+    <implementation>
+      <input name_on_component="HDMI 3">
+        <action_to_select name="SelectHDMI3" />
+      </input>
+      <output name_on_component="H/P AUDIO OUT" />
+      <output name_on_component="AUDIO OUT (OPTICAL)" />
+    </implementation>
+    <implementation>
+      <input name_on_component="HDMI 4">
+        <action_to_select name="SelectHDMI4" />
+      </input>
+      <output name_on_component="H/P AUDIO OUT" />
+      <output name_on_component="AUDIO OUT (OPTICAL)" />
+    </implementation>
+    <implementation>
+      <output name_on_component="H/P AUDIO OUT" />
+      <output name_on_component="AUDIO OUT (OPTICAL)" />
+      <bidirectional name_on_component="HDMI 4 ARC">
+        <action_to_select name="SelectHDMI4" />
+      </bidirectional>
+    </implementation>
+    <implementation>
+      <input name_on_component="CABLE/ANT">
+        <action_to_select name="SelectTV" />
+      </input>
+      <output name_on_component="H/P AUDIO OUT" />
+      <output name_on_component="AUDIO OUT (OPTICAL)" />
+      <bidirectional name_on_component="HDMI 4 ARC" />
+    </implementation>
+    <implementation>
+      <input name_on_component="AV IN">
+        <action_to_select name="SelectAV" />
+      </input>
+      <output name_on_component="H/P AUDIO OUT" />
+      <output name_on_component="AUDIO OUT (OPTICAL)" />
+      <bidirectional name_on_component="HDMI 4 ARC" />
+    </implementation>
+
+    <implementation>
+      <output name_on_component="H/P AUDIO OUT" />
+      <output name_on_component="AUDIO OUT (OPTICAL)" />
+      <internal name_on_component="Apps">
+        <action_to_select name="SelectApps" />
+      </internal>
+    </implementation>
+    <implementation>
+      <output name_on_component="H/P AUDIO OUT" />
+      <output name_on_component="AUDIO OUT (OPTICAL)" />
+      <bidirectional name_on_component="HDMI 4 ARC" />
+      <internal name_on_component="Netflix">
+        <action_to_select name="SelectNetflix" />
+      </internal>
+    </implementation>
+    <implementation>
+      <output name_on_component="H/P AUDIO OUT" />
+      <output name_on_component="AUDIO OUT (OPTICAL)" />
+      <bidirectional name_on_component="HDMI 4 ARC" />
+      <internal name_on_component="YouTube">
+        <action_to_select name="SelectYouTube" />
+      </internal>
+    </implementation>
+    <implementation>
+      <output name_on_component="H/P AUDIO OUT" />
+      <output name_on_component="AUDIO OUT (OPTICAL)" />
+      <bidirectional name_on_component="HDMI 4 ARC" />
+      <internal name_on_component="PrimeVideo">
+        <action_to_select name="SelectPrimeVideo" />
+      </internal>
+    </implementation>
+    <implementation>
+      <output name_on_component="H/P AUDIO OUT" />
+      <output name_on_component="AUDIO OUT (OPTICAL)" />
+      <bidirectional name_on_component="HDMI 4 ARC" />
+      <internal name_on_component="FranceTV">
+        <action_to_select name="SelectFranceTV" />
+      </internal>
+    </implementation>
+    <implementation>
+      <output name_on_component="H/P AUDIO OUT" />
+      <output name_on_component="AUDIO OUT (OPTICAL)" />
+      <bidirectional name_on_component="HDMI 4 ARC" />
+      <internal name_on_component="Arte">
+        <action_to_select name="SelectArte" />
+      </internal>
     </implementation>
 
     <status_messages>
@@ -89,6 +299,17 @@
         <constant type="character">attr_name=state&amp;attr_value=</constant>
         <data type="character" terminator_type="end_of_data">
           <update state="CurrentState" type="string"/>
+          <data_map match_required="no">
+            <map key="on">
+              <update state="CurrentPowerStatus" type="string">ON</update>
+            </map>
+            <map key="off">
+              <update state="CurrentPowerStatus" type="string">OFF</update>
+            </map>
+            <map key="unavailable">
+              <update state="CurrentPowerStatus" type="string">OFF</update>
+            </map>
+          </data_map>
         </data>
         <append_data_to_state_names state="EntityID" />
       </status_message>
@@ -240,6 +461,349 @@
               <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
               <parameter parameter_data_type="character">,</parameter>
               <parameter parameter_data_type="character" action_argument="VolumeValue" />
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+    </resource_component_actions>
+    <resource_component_actions resource_type="AV_TV_SOURCE">
+      <action name="ChannelDigitalUp">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,CHANNEL_UP</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="ChannelDigitalDown">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,CHANNEL_DOWN</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="ChannelAnalogUp">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,CHANNEL_UP</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="ChannelAnalogDown">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,CHANNEL_DOWN</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="LastChannel">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,LAST_CHANNEL</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberZero">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,0</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberOne">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,1</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberTwo">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,2</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberThree">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,3</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberFour">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,4</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberFive">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,5</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberSix">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,6</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberSeven">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,7</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberEight">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,8</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberNine">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,9</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Select">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,DPAD_CENTER</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Enter">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,DPAD_CENTER</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Guide">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,GUIDE</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Info">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,INFO</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Menu">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,MENU</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="OSDCursorUp">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,DPAD_UP</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="OSDCursorDown">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,DPAD_DOWN</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="OSDCursorLeft">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,DPAD_LEFT</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="OSDCursorRight">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,DPAD_RIGHT</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Exit">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,BACK</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Play">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,MEDIA_PLAY</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Pause">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,MEDIA_PAUSE</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Stop">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,MEDIA_STOP</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="FastForward">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,MEDIA_FAST_FORWARD</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Rewind">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,MEDIA_REWIND</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="LiveTV">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_launch_app,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,content://android.media.tv/channel</parameter>
             </parameter_list>
           </command>
         </command_interface>
@@ -466,7 +1030,7 @@
           </command>
         </command_interface>
       </action>
-      <action name="Number0">
+      <action name="NumberZero">
         <command_interface interface="ip">
           <command response_required="no">
             <command_string>remote_send_command,</command_string>
@@ -477,7 +1041,7 @@
           </command>
         </command_interface>
       </action>
-      <action name="Number1">
+      <action name="NumberOne">
         <command_interface interface="ip">
           <command response_required="no">
             <command_string>remote_send_command,</command_string>
@@ -488,7 +1052,7 @@
           </command>
         </command_interface>
       </action>
-      <action name="Number2">
+      <action name="NumberTwo">
         <command_interface interface="ip">
           <command response_required="no">
             <command_string>remote_send_command,</command_string>
@@ -499,7 +1063,7 @@
           </command>
         </command_interface>
       </action>
-      <action name="Number3">
+      <action name="NumberThree">
         <command_interface interface="ip">
           <command response_required="no">
             <command_string>remote_send_command,</command_string>
@@ -510,7 +1074,7 @@
           </command>
         </command_interface>
       </action>
-      <action name="Number4">
+      <action name="NumberFour">
         <command_interface interface="ip">
           <command response_required="no">
             <command_string>remote_send_command,</command_string>
@@ -521,7 +1085,7 @@
           </command>
         </command_interface>
       </action>
-      <action name="Number5">
+      <action name="NumberFive">
         <command_interface interface="ip">
           <command response_required="no">
             <command_string>remote_send_command,</command_string>
@@ -532,7 +1096,7 @@
           </command>
         </command_interface>
       </action>
-      <action name="Number6">
+      <action name="NumberSix">
         <command_interface interface="ip">
           <command response_required="no">
             <command_string>remote_send_command,</command_string>
@@ -543,7 +1107,7 @@
           </command>
         </command_interface>
       </action>
-      <action name="Number7">
+      <action name="NumberSeven">
         <command_interface interface="ip">
           <command response_required="no">
             <command_string>remote_send_command,</command_string>
@@ -554,7 +1118,7 @@
           </command>
         </command_interface>
       </action>
-      <action name="Number8">
+      <action name="NumberEight">
         <command_interface interface="ip">
           <command response_required="no">
             <command_string>remote_send_command,</command_string>
@@ -565,7 +1129,7 @@
           </command>
         </command_interface>
       </action>
-      <action name="Number9">
+      <action name="NumberNine">
         <command_interface interface="ip">
           <command response_required="no">
             <command_string>remote_send_command,</command_string>
@@ -593,7 +1157,7 @@
             <command_string>remote_launch_app,</command_string>
             <parameter_list>
               <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
-              <parameter parameter_data_type="character">,https://www.youtube.com</parameter>
+              <parameter parameter_data_type="character">,vnd.youtube.launch://</parameter>
             </parameter_list>
           </command>
         </command_interface>
@@ -615,7 +1179,18 @@
             <command_string>remote_launch_app,</command_string>
             <parameter_list>
               <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
-              <parameter parameter_data_type="character">,fr.francetv.pluzz</parameter>
+              <parameter parameter_data_type="character">,yatta://home</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Arte">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_launch_app,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,arte://programs</parameter>
             </parameter_list>
           </command>
         </command_interface>
@@ -632,7 +1207,471 @@
         </command_interface>
       </action>
     </resource_component_actions>
+    <resource_component_actions resource_type="AV_SMARTTV_SOURCE">
+      <action name="Apps">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,HOME</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="FastForward">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,MEDIA_FAST_FORWARD</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Rewind">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,MEDIA_REWIND</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Select">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,DPAD_CENTER</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberOne">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,1</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberTwo">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,2</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberThree">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,3</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberFour">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,4</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberFive">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,5</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberSix">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,6</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberSeven">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,7</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberEight">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,8</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberNine">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,9</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="NumberZero">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,0</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="OSDCursorUp">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,DPAD_UP</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="OSDCursorDown">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,DPAD_DOWN</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="OSDCursorLeft">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,DPAD_LEFT</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="OSDCursorRight">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,DPAD_RIGHT</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Menu">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,MENU</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Exit">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,HOME</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="ExitSmartTVMenu">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,HOME</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Back">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,BACK</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Play">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,MEDIA_PLAY</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Stop">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,MEDIA_STOP</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Pause">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,MEDIA_PAUSE</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Info">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,INFO</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Green">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,PROG_GREEN</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Yellow">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,PROG_YELLOW</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Blue">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,PROG_BLUE</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="Red">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,PROG_RED</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+    </resource_component_actions>
     <custom_component_actions>
+      <action name="SelectHDMI1">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_launch_app,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,content://android.media.tv/passthrough/com.tcl.tvinput%2F.passthroughinput.TvPassThroughService%2FHW1413744128</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="SelectHDMI2">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_launch_app,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,content://android.media.tv/passthrough/com.tcl.tvinput%2F.passthroughinput.TvPassThroughService%2FHW1413744384</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="SelectHDMI3">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_launch_app,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,content://android.media.tv/passthrough/com.tcl.tvinput%2F.passthroughinput.TvPassThroughService%2FHW1413744640</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="SelectHDMI4">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_launch_app,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,content://android.media.tv/passthrough/com.tcl.tvinput%2F.passthroughinput.TvPassThroughService%2FHW1413745664</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="SelectTV">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_launch_app,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,content://android.media.tv/channel</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="SelectAV">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_launch_app,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,content://android.media.tv/passthrough/com.tcl.tvinput%2F.passthroughinput.TvPassThroughService%2FHW1413743104</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="SelectNetflix">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_launch_app,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,https://www.netflix.com/title</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="SelectYouTube">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_launch_app,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,vnd.youtube.launch://</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="SelectPrimeVideo">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_launch_app,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,https://app.primevideo.com</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="SelectFranceTV">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_launch_app,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,yatta://home</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="SelectArte">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_launch_app,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,arte://programs</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="SelectApps">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string>remote_send_command,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
+              <parameter parameter_data_type="character">,HOME</parameter>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
       <action name="SendKey">
         <action_argument name="KeyName" note="DPAD_UP, HOME, BACK, VOLUME_UP..." />
         <command_interface interface="ip">
@@ -655,6 +1694,16 @@
               <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
               <parameter parameter_data_type="character">,</parameter>
               <parameter parameter_data_type="character" action_argument="AppName" />
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="StateFilter">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string type="character">state_filter,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="state_filter" />
             </parameter_list>
           </command>
         </command_interface>
