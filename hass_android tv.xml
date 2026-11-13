@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="racepoint_component_profile.xsd" manufacturer="Hass" model="Android TV" alias="Home Assistant"
-  device_class="HD_monitor" minimum_component_engine_version="0" rpm_xml_version="3.98">
+  device_class="HD_monitor" minimum_component_engine_version="0" rpm_xml_version="3.99">
 
   <control_interfaces preferred="ip">
     <ip port="8080" response_time_length_ms="100" protocol="tcp">
@@ -448,19 +448,6 @@
             <parameter_list>
               <parameter parameter_data_type="character" state_variable="HassRemoteEntityID" />
               <parameter parameter_data_type="character">,MUTE</parameter>
-            </parameter_list>
-          </command>
-        </command_interface>
-      </action>
-      <action name="SetVolume">
-        <action_argument name="VolumeValue"/>
-        <command_interface interface="ip">
-          <command response_required="no">
-            <command_string>media_player_set_volume,</command_string>
-            <parameter_list>
-              <parameter parameter_data_type="character" state_variable="HassMediaEntityID" />
-              <parameter parameter_data_type="character">,</parameter>
-              <parameter parameter_data_type="character" action_argument="VolumeValue" />
             </parameter_list>
           </command>
         </command_interface>
