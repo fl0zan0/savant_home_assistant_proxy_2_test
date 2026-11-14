@@ -762,7 +762,7 @@ class Hass
 
   def substitute_ids(params)
     params.each_slice(2) do |k, v|
-      next if v.empty?
+      next if k.to_s.empty? || v.to_s.empty?
       
       @substitute_id[k] = v
       @id_substitute[v] = k
