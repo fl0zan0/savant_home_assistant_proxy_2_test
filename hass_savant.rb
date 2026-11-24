@@ -706,6 +706,7 @@ class Hass
   include HassRequests
 
   POSTFIX = "\n"
+  VALID_ENTITY_ID = /\A[a-z0-9_]+\.[a-z0-9_]+\z/
 
   def initialize(hass_address, token, client, filter = ['all'])
     LOG.debug([:connecting_to, hass_address])
@@ -728,7 +729,11 @@ class Hass
   end
 
   def subscribe_entities(*entity_id)
-    entity_array = entity_id.flatten.map(&:to_s).reject(&:empty?)
+    entity_array = entity_id.flatten.map(&:to_s).reject(&:empty?).uniq
+    # Home Assistant rejects the whole request if one ID is not domain.object_id
+    invalid = entity_array.grep_v(VALID_ENTITY_ID)
+    LOG.error([:invalid_entity_ids_skipped, invalid]) unless invalid.empty?
+    entity_array -= invalid
     return LOG.warn([:subscribe_entities_empty]) if entity_array.empty?
 
     @wanted_entities.merge(entity_array)
