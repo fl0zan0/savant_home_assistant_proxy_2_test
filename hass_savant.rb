@@ -8,6 +8,7 @@ require 'fcntl'
 require 'logger'
 require 'websocket/driver'
 require 'fileutils'
+require 'set'
 
 class AppLogger
   def self.setup(log_level: Logger::WARN)
@@ -719,18 +720,35 @@ class Hass
     @id_substitute = {}
     @authed_queue = []
     @id = 0
+    # Subscriptions Savant asked for, replayed after each Home Assistant reconnect
+    @wanted_entities = Set.new
+    @wanted_events = false
     connect_websocket
     @client.on(:data, method(:from_savant))
   end
 
   def subscribe_entities(*entity_id)
-    entity_array = entity_id.flatten
-    return if entity_array.empty?
+    entity_array = entity_id.flatten.map(&:to_s).reject(&:empty?)
+    return LOG.warn([:subscribe_entities_empty]) if entity_array.empty?
 
+    @wanted_entities.merge(entity_array)
+    # Only what is not already subscribed on the current websocket
+    new_ids = entity_array.reject { |e| @ws_entities.include?(e) }
+    return if new_ids.empty?
+
+    @ws_entities.merge(new_ids)
     send_json(
       type: 'subscribe_entities',
-      entity_ids: entity_array
+      entity_ids: new_ids
     )
+  end
+
+  def subscribe_events
+    @wanted_events = true
+    return if @ws_events
+
+    @ws_events = true
+    send_json(type: 'subscribe_events')
   end
 
   def send_data(**data)
@@ -742,7 +760,7 @@ class Hass
     reqs.split("\n").each do |req|
       # LOG.debug([:skipping_from_savant, req])
       cmd, *params = req.split(',')
-      if cmd == 'subscribe_events' then send_json(type: 'subscribe_events')
+      if cmd == 'subscribe_events' then subscribe_events
       elsif cmd == 'subscribe_entity' then subscribe_entities(params)
       elsif cmd == 'state_filter' then @filter = params
       elsif cmd == 'substitute_ids' then substitute_ids(params)
@@ -778,6 +796,11 @@ class Hass
 
   def connect_websocket
     @reconnecting = false
+    # New websocket: nothing subscribed yet, and nothing may be sent before auth_ok
+    @auth_required = true
+    @ws_entities = Set.new
+    @ws_events = false
+    @authed_queue.reject! { |h| %w[subscribe_entities subscribe_events].include?(h[:type].to_s) }
     ws_url = @address
     @hass_ws = NonBlockSocket::TCP::WebSocketClient.new(ws_url)
   
@@ -909,8 +932,19 @@ class Hass
     @auth_required = false
     @authed_queue.each { |h| send_json(h) }
     @authed_queue = []
+    resubscribe
     LOG.info([:authorization_complete])
     add_timeout(proc { to_savant("hass_websocket_connected,#{Time.now}") } , 5)
+  end
+
+  # After a Home Assistant restart the new websocket has no subscription:
+  # replay what Savant asked for, without waiting for Savant to resubscribe.
+  def resubscribe
+    unless @wanted_entities.empty?
+      LOG.info([:resubscribing, @wanted_entities.size])
+      subscribe_entities(@wanted_entities.to_a)
+    end
+    subscribe_events if @wanted_events
   end
 
   def to_savant(*message)
