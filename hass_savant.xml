@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="racepoint_component_profile.xsd" manufacturer="Hass" model="Savant" alias="Home Assistant"
-  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="4.5009">
+  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="4.5010">
 
   <notes>
   4.2 Added wall plugs with switch domain (all sockets, wall plugs, lutron inline switch)
@@ -287,6 +287,7 @@
               <update state="GroupisLightOn" type="boolean">false</update>
               <update state="GarageDoorStatus" type="string">Closed</update>
               <update state="DimmerLevel" type="integer">0</update>
+              <update state="Color_Temp_Kelvin" type="integer">0</update>
             </map>
           </data_map>
         </data>
