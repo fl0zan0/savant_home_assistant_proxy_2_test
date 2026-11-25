@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="racepoint_component_profile.xsd" manufacturer="Hass" model="Savant_lutron" alias="Home Assistant"
-  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="1.106">
+  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="1.107">
 
   <notes>
   1.1   First version with Lutron lumaris integration. (color temp) 
@@ -244,6 +244,7 @@
               <update state="GroupisLightOn" type="boolean">false</update>
               <update state="GarageDoorStatus" type="string">Closed</update>
               <update state="DimmerLevel" type="integer">0</update>
+              <update state="Color_Temp_Kelvin" type="integer">0</update>
             </map>
           </data_map>
         </data>

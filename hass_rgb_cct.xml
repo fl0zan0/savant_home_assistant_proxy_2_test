@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="racepoint_component_profile.xsd" manufacturer="hass" model="rgb_cct" alias="Home Assistant"
+  device_class="Lighting_controller" minimum_component_engine_version="0" rpm_xml_version="1.23">
+
+  <notes>
+  1.0 . Led Integration 
+  </notes>  
+  <control_interfaces preferred="ip">
+    <ip port="8080" response_time_length_ms="1000" protocol="tcp">
+        <send_postfix type="hex">0A</send_postfix>
+        <receive_end_condition test_condition="data" type="hex">0A</receive_end_condition>
+    </ip>
+  </control_interfaces>
+  
+  <media_interfaces>
+    <data name_on_component="Ethernet">
+      <combined_media>
+        <data_media type="ethernet"/>
+        <control port="8080"/>
+      </combined_media>
+    </data>
+    <internal name_on_component="Lighting Controller">
+      <environmental_media/>
+      <resource resource_type="ENV_LIGHTINGCONTROLLER_SOURCE"/>
+    </internal>
+  </media_interfaces>
+
+  <state_variable_list>
+    <state_variable name="subscribe_all_events" owning_logical_component="Home Assistant" state_center_type="string" user_editable="yes">NO</state_variable>
+    <state_variable name="state_filter" owning_logical_component="Home Assistant"  state_center_type="string" state_center_binding="state_filter" user_editable="yes">brightness,color_mode,color_temp_kelvin,hs_color,hue,saturation,state,cover,lock,current_position</state_variable>
+    <state_variable name="HassEntityArray" owning_logical_component="Home Assistant" state_center_type="string" state_center_binding="HassEntityArray"></state_variable>
+  </state_variable_list>
+
+  <logical_component logical_component_name="Home Assistant">
+    <implementation>
+      <internal name_on_component="Lighting Controller"/>
+    </implementation>
+
+    <status_messages>
+
+      <status_message name="websocket_connected">
+        <constant type="character">hass_websocket_connected,</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="ws_reconnected_at" type="string"></update>
+        </data>
+        <run_elements>
+          <actions>
+            <action name="resubscribe">
+              <execute_action_after_delay ms_delay="100" action_name="SubscribeEvents" action_type="CUSTOM"></execute_action_after_delay>
+              <execute_action_after_delay ms_delay="200" action_name="StateFilter" action_type="CUSTOM"></execute_action_after_delay>
+              <execute_action_after_delay ms_delay="300" action_name="SubscribeThermostatEntity" action_type="CUSTOM"></execute_action_after_delay>
+              <execute_action_after_delay ms_delay="400" action_name="SubscribeEntities" action_type="CUSTOM"></execute_action_after_delay>
+            </action>
+          </actions>
+        </run_elements>
+      </status_message>
+      <status_message name="pong">
+        <data type="character" terminator_type="character" terminator=",">
+          <update state="pong_id" type="string"></update>
+        </data>
+        <constant type="character">pong,</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="last_pong_time" type="string"></update>
+        </data>
+      </status_message>
+      
+      <status_message name="DimmerLevel">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=brightness&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="Value" type="integer" />
+          <data_map match_required="no">
+            <convert>
+              <multiply>100</multiply>
+              <divide>255</divide>
+              <update state="DimmerLevel" type="integer"></update>
+            </convert>
+          </data_map>
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+        <status_message name="ColorTemperature">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=color_temp_kelvin&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="Value" type="integer" />
+          <data_map match_required="no">
+            <convert>
+              <subtract>2202</subtract>
+              <divide>43.33</divide>
+              <update state="Color_Temp_Kelvin" type="integer"></update>
+            </convert>
+          </data_map>
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+
+      <status_message name="Color_Mode">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=color_mode&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="Color_mode" type="string" />
+          <update state="Hue" type="integer" />
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+
+      <status_message name="ColorState">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=hue&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="CurrentColor" type="integer" />
+          <update state="Hue" type="integer" />
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+
+      <status_message name="Saturation">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=saturation&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="Saturation" type="integer" />
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+
+      <status_message name="State">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=state&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="CurrentState" type="string"/>
+          <data_map match_required="no">
+            
+            
+            <map key="on">
+              <update state="IsDimmerOn" type="boolean">true</update>
+              <update state="LightPowerStatus" type="string">ON</update>
+              <update state="IsLightOn" type="boolean">true</update>
+              <update state="GroupisLightOn" type="boolean">true</update>
+              
+            </map>
+            <map key="off">
+              <update state="IsDimmerOn" type="boolean">false</update>
+              <update state="LightPowerStatus" type="string">OFF</update>
+              <update state="IsLightOn" type="boolean">false</update>
+              <update state="GroupisLightOn" type="boolean">false</update>
+              <update state="DimmerLevel" type="integer">0</update>
+              <update state="Color_Temp_Kelvin" type="integer">0</update>
+            </map>
+          </data_map>
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+
+      <status_message name="Attributes">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=attributes&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="CurrentAttributes" type="string"/>
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+      <status_message name="OtherUpdate">
+        <constant type="character">entity_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="EntityID" type="string"></update>
+        </data>
+        <constant type="character">substitute_id=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="SubstituteID" type="string"></update>
+        </data>
+        <constant type="character">parent_keys=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="ParentKeys" type="string"></update>
+        </data>
+        <constant type="character">attr_name=</constant>
+        <data type="character" terminator_type="character" terminator="&amp;">
+          <update state="Name" type="string" />
+        </data>
+        <constant type="character">&amp;attr_value=</constant>
+        <data type="character" terminator_type="end_of_data">
+          <update state="Value" type="string" />
+        </data>
+        <append_data_to_state_names state="Name" />
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+
+      <status_message name="Service">
+        <constant type="character">type:</constant>
+        <data type="character" terminator="," terminator_type="character">
+          <update state="Type" type="string" />
+        </data>
+        <constant type="character">entity:</constant>
+        <data type="character" terminator="," terminator_type="character">
+          <update state="EntityID" type="string" />
+        </data>
+        <constant type="character">service:</constant>
+        <data type="character" terminator="," terminator_type="character">
+          <update state="ServiceState" type="string"/>
+        </data>
+        <constant type="character">domain:</constant>
+        <data type="character" terminator="," terminator_type="end_of_data">
+          <update state="FriendlyName" type="string"/>
+        </data>
+        <append_data_to_state_names state="EntityID" />
+      </status_message>
+
+      <status_message name="Unhandled">
+        <data type="character" terminator_type="end_of_data">
+          <update state="Unhandled" type="string"></update>
+        </data>
+      </status_message>
+    </status_messages>
+
+    <resource_component_actions resource_type="ENV_LIGHTINGCONTROLLER_SOURCE">
+      <action name="SwitchOn">
+        <action_argument name="Address1" note="Entity ID"/>
+        <action_argument name="Address2" note="Savant ID"/>
+        <action_argument name="Address3" note=""/>
+        <action_argument name="Address4" note=""/>
+        <action_argument name="Address5" note=""/>
+        <action_argument name="Address6" note=""/>
+        <command_interface interface="ip">
+          <command response_required="no">
+            <parameter_list>
+              <parameter parameter_data_type="character">switch_on,</parameter>
+              <parameter parameter_data_type="character" action_argument="Address1"/>
+            </parameter_list>
+            <delay ms_delay="10"/>
+          </command>
+        </command_interface>
+      </action>
+
+      <action name="SwitchOff">
+        <action_argument name="Address1" note="Entity ID"/>
+        <action_argument name="Address2" note="Savant ID"/>
+        <action_argument name="Address3" note=""/>
+        <action_argument name="Address4" note=""/>
+        <action_argument name="Address5" note=""/>
+        <action_argument name="Address6" note=""/>
+        <command_interface interface="ip">
+          <command response_required="no">
+            <parameter_list>
+              <parameter parameter_data_type="character">switch_off,</parameter>
+              <parameter parameter_data_type="character" action_argument="Address1"/>
+            </parameter_list>
+            <delay ms_delay="10"/>
+          </command>
+        </command_interface>
+      </action>
+
+      <action name="DimmerSet">
+        <action_argument name="Address1" note="Entity ID"/>
+        <action_argument name="Address2" note="not used"/>
+        <action_argument name="Address3" note="not used"/>
+        <action_argument name="Address4" note="not used"/>
+        <action_argument name="Address5" note="not used"/>
+        <action_argument name="Address6" note="not used"/>
+        <action_argument name="DimmerLevel" note="Select the Dimmer Level 0 - 100"/>
+        <action_argument name="DelayTime" note="not used"/>
+        <action_argument name="bleColorRed" note="Enter the Desired Value (0-255)"/>
+        <action_argument name="bleColorGreen" note="Enter the Desired Value (0-255)"/>
+        <action_argument name="bleColorBlue" note="Enter the Desired Value (0-255)"/>
+        <action_argument name="bleColorWhite" note="Enter the Desired Value (0-255)"/>
+        <action_argument name="kelvin" note="Enter the Desired Value (2200-6000)"/>
+        <action_argument name="Curve" note="Enter the Desired Value (Infinite Color,Tunable White,Warm Glow,etc...)"/>
+        <command_interface interface="ip">
+          <command response_required="no">
+            <parameter_list>
+              <parameter parameter_data_type="character">dimmer_set,</parameter>
+              <parameter parameter_data_type="character" action_argument="Address1"/>
+              <parameter parameter_data_type="character">,</parameter>
+              <parameter parameter_data_type="character" action_argument="DimmerLevel"/>
+            </parameter_list>
+            <delay ms_delay="10"/>
+          </command>
+        </command_interface>
+      </action>
+      
+      <action name="RFDimmerSet">
+        <action_argument name="Address1" note="Entity ID"/>
+        <action_argument name="Address2" note="not used"/>
+        <action_argument name="Address3" note="not used"/>
+        <action_argument name="Address4" note="not used"/>
+        <action_argument name="Address5" note="not used"/>
+        <action_argument name="Address6" note="not used"/>
+        <action_argument name="DimmerLevel" note="Select the Dimmer Level 0 - 100"/>
+        <action_argument name="DelayTime" note="not used"/>
+        <action_argument name="bleColorRed" note="Enter the Desired Value (0-255)"/>
+        <action_argument name="bleColorGreen" note="Enter the Desired Value (0-255)"/>
+        <action_argument name="bleColorBlue" note="Enter the Desired Value (0-255)"/>
+        <action_argument name="bleColorWhite" note="Enter the Desired Value (0-255)"/>
+        <action_argument name="kelvin" note="Enter the Desired Value (2200-6000)"/>
+        <action_argument name="Curve" note="Enter the Desired Value (Infinite Color,Tunable White,Warm Glow,etc...)"/>
+        <command_interface interface="ip">
+          <command response_required="no">
+            <parameter_list>
+              <parameter parameter_data_type="character">color_temp_kelvin_set,</parameter>
+              <parameter parameter_data_type="character" action_argument="Address1"/>
+              <parameter parameter_data_type="character">,</parameter>
+              <parameter parameter_data_type="character" action_argument="DimmerLevel"/>
+            </parameter_list>
+            <delay ms_delay="10"/>
+          </command>
+        </command_interface>
+      </action>      
+
+      <entity name="Switch" address_components="1">
+        <toggle_button_representation>
+          <release_action name="SwitchOn"> </release_action>
+          <toggle_release_action name="SwitchOff"> </toggle_release_action>
+          <osd_press_action name="SwitchOn"> </osd_press_action>
+          <osd_hold_action name="SwitchOff"> </osd_hold_action>
+          <toggleOnUsingState name="IsLightOn">
+            <unique_identifier name="Address1" address_component="1" format="%s"/>
+          </toggleOnUsingState>
+        </toggle_button_representation>
+        <query_status_with_action name="TrackEntity" period_ms="0">
+          <with_arg name="Address1" address_component="1" format="%s" />
+        </query_status_with_action>
+      </entity>
+      
+      <entity name="Dimmer" address_components="1">
+        <slider_representation>
+          <press_action name="DimmerSet"/>
+          <valueSource name="DimmerLevel">
+            <unique_identifier address_component="1" name="Address1" format="%s"/>
+          </valueSource>
+        </slider_representation>
+        <query_status_with_action name="TrackEntity" period_ms="0">
+          <with_arg name="Address1" address_component="1" format="%s" />
+        </query_status_with_action>
+      </entity>
+
+       <entity name="Color Temp" address_components="1">
+        <kelvin_slider_representation>
+          <press_action name="RFDimmerSet"/>
+          <valueSource name="Color_Temp_Kelvin">
+            <unique_identifier address_component="1" name="Address1" format="%s"/>
+          </valueSource>
+        </kelvin_slider_representation>
+        <query_status_with_action name="TrackEntity" period_ms="0">
+          <with_arg name="Address1" address_component="1" format="%s" />
+        </query_status_with_action>
+      </entity>
+    </resource_component_actions>
+    
+    <custom_component_actions>
+      <action name="TrackEntity">
+        <action_argument name="Address1" />
+        <update_state_variable name="HassEntityArray" update_type="append" update_source="action_argument">Address1</update_state_variable>
+        <update_state_variable name="HassEntityArray" update_type="append" update_source="constant">,</update_state_variable>
+      </action>
+      <action name="AwaitConnection">
+        <update_state_variable name="HassEntityArray" update_type="set" update_source="constant"></update_state_variable>
+        <execute_on_schedule period_ms="0"/>
+        <!-- <execute_action_after_delay ms_delay="10000" action_name="Start" action_type="CUSTOM"></execute_action_after_delay>
+        <execute_action_after_delay ms_delay="11000" action_name="SubscribeEvents" action_type="CUSTOM"></execute_action_after_delay>
+        <execute_action_after_delay ms_delay="11000" action_name="StateFilter" action_type="CUSTOM"></execute_action_after_delay>
+        <execute_action_after_delay ms_delay="15000" action_name="SubscribeEntities" action_type="CUSTOM"></execute_action_after_delay> -->
+      </action>
+      <action name="SubscribeEvents">
+        <execute_on_state_variable_condition name="subscribe_all_events" test_condition="not_equal">NO</execute_on_state_variable_condition>
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string type="character">subscribe_events</command_string>
+          </command>
+        </command_interface>
+      </action>
+      <action name="StateFilter">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <command_string type="character">state_filter,</command_string>
+            <parameter_list>
+              <parameter parameter_data_type="character" state_variable="state_filter"/>
+            </parameter_list>
+          </command>
+        </command_interface>
+      </action>
+      <action name="SubscribeEntities">
+        <command_interface interface="ip">
+          <command response_required="no">
+            <parameter_list>
+              <parameter parameter_data_type="character">subscribe_entity,</parameter>
+              <parameter parameter_data_type="character" state_variable="HassEntityArray"></parameter>
+            </parameter_list>
+            <delay ms_delay="50"/>
+          </command>
+        </command_interface>
+      </action>
+    </custom_component_actions>
+  </logical_component>
+</component>
